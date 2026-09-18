@@ -1,0 +1,3 @@
+# Optional: rebuild from the private 116-column source workbook.
+-r requirements.txt
+xlrd==2.0.1
