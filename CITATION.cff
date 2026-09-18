@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "Reproducible Analysis Code for L-DEP-PD-1 Induction Therapy in EBV-Positive Lymphoma-Associated Hemophagocytic Lymphohistiocytosis"
+type: software
+authors:
+  - given-names: Yubo
+    family-names: Pi
+    affiliation: "Department of Hematology, Beijing Friendship Hospital, Capital Medical University, Beijing, China"
+    orcid: "https://orcid.org/0000-0002-8971-5517"
+abstract: >-
+  Reproducible analysis code accompanying a prospective, multicentre,
+  single-arm Phase 2 study of L-DEP-PD-1 induction therapy for
+  Epstein-Barr virus (EBV)-positive lymphoma-associated hemophagocytic
+  lymphohistiocytosis (LA-HLH). The repository contains scripts for data
+  preparation and statistical analysis used to reproduce the quantitative
+  results reported in the associated manuscript, including treatment
+  response, EBV-DNA kinetics, paired laboratory parameter comparisons,
+  adverse-event summaries, and Kaplan-Meier overall survival analysis.
+keywords:
+  - EBV-positive LA-HLH
+  - lymphoma-associated hemophagocytic lymphohistiocytosis
+  - L-DEP-PD-1
+  - camrelizumab
+  - asparaginase
+  - reproducible analysis
+license: "CC-BY-4.0"
+repository-code: "https://github.com/Yubo-Pi/LDEP-PD-1_LA-HLH"

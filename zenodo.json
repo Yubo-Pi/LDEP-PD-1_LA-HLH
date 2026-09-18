@@ -1,0 +1,23 @@
+{
+  "title": "Reproducible Analysis Code for L-DEP-PD-1 Induction Therapy in EBV-Positive Lymphoma-Associated Hemophagocytic Lymphohistiocytosis",
+  "upload_type": "software",
+  "creators": [
+    {
+      "name": "Pi, Yubo",
+      "orcid": "0000-0002-8971-5517",
+      "affiliation": "Department of Hematology, Beijing Friendship Hospital, Capital Medical University, Beijing, China"
+    }
+  ],
+  "description": "Reproducible analysis code accompanying a prospective, multicentre, single-arm Phase 2 study of L-DEP-PD-1 induction therapy for Epstein–Barr virus (EBV)-positive lymphoma-associated hemophagocytic lymphohistiocytosis (LA-HLH).\n\nThe repository contains scripts for data preparation and statistical analysis used to reproduce the quantitative results reported in the associated manuscript. Analyses include treatment response at weeks 2 and 4, EBV-DNA kinetics in plasma and PBMCs, paired laboratory parameter comparisons, adverse-event summaries, and Kaplan–Meier overall survival analysis.\n\nThe study included 24 adult patients with EBV-positive LA-HLH treated at three centres in China. The analysis code is designed to work with the accompanying de-identified patient-level dataset and provides a reproducible workflow for generating the reported study results.\n\nAssociated manuscript: Pi Y, Wang J, Zhou H, Pan X, Wang Z. Adding asparaginase and PD-1 blockade to the DEP regimen achieves rapid disease control and Epstein–Barr virus clearance in EBV-positive lymphoma-associated hemophagocytic lymphohistiocytosis.\n\nClinicalTrials.gov identifier: NCT05775705.",
+  "access_right": "open",
+  "license": "cc-by-4.0",
+  "language": "eng",
+  "keywords": [
+    "EBV-positive LA-HLH",
+    "lymphoma-associated hemophagocytic lymphohistiocytosis",
+    "L-DEP-PD-1",
+    "camrelizumab",
+    "asparaginase",
+    "reproducible analysis"
+  ]
+}
