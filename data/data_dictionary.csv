@@ -1,0 +1,127 @@
+﻿variable,description,type_or_unit,n_non_missing
+pid,"Patient identifier, 1-24; no link to hospital records is retained",integer,24
+regimen,Regimen label as recorded in the source database,text,24
+sex,Sex,M/F,24
+age_years,Age at enrolment,years,24
+weeks_from_diagnosis_to_enrolment,Interval from HLH diagnosis to enrolment,weeks,24
+underlying_disease,Underlying disease category per protocol eligibility,Lymphoma / EBV-T/NK-LPD,24
+subtype_WHO_HAEM5,"Histological subtype, re-classified according to WHO-HAEM5",category,24
+lineage,Lineage grouping used in the manuscript,T- or NK-cell / B-cell or Hodgkin,24
+ann_arbor_stage,Ann Arbor stage,I / II / III / IV,24
+b_symptoms,Presence of B symptoms,Yes/No,24
+ipi,International Prognostic Index,0-5,24
+pink,"PINK score, recorded for one ENKTL patient only",0-4,1
+ips,"International Prognostic Score, recorded for the single cHL patient",0-7,1
+disease_status,Disease status at enrolment,Newly diagnosed / Refractory / Relapsed,24
+ecog,Eastern Cooperative Oncology Group performance status,0-5,24
+comorbidity,Comorbid conditions recorded at enrolment,free text (Chinese),16
+cycles_delivered,Number of L-DEP-PD-1 cycles delivered,1-2,24
+any_adverse_event,Any adverse event during induction,Yes/No,24
+adverse_event_detail,"Adverse events as recorded, with CTCAE grade where stated",free text (Chinese),19
+allogeneic_hsct,Allogeneic HSCT performed,Yes/No,24
+survival_status,Vital status at last contact,Alive / Dead / Lost to follow-up,24
+survival_months,Follow-up or survival time from initiation of induction,months,24
+cause_of_death,"Cause of death; the string ""shifang"" (Chinese: lost to follow-up) marks the 5 patients lost to follow-up, who were censored at their last contact",free text (Chinese),14
+hlh_response_2w,HLH response at 2 weeks (modified Marsh criteria),CR / PR / NR,24
+hlh_response_4w,HLH response at 4 weeks; empty when not assessed,CR / PR / NR / blank,8
+fever_baseline,Fever at baseline,Yes/No,24
+tmax_baseline,Maximum temperature at baseline,degC,22
+haemophagocytosis_baseline,Haemophagocytosis at baseline,Yes/No,24
+splenomegaly_baseline,Splenomegaly at baseline,Yes/No,24
+fever_week2,Fever at week2,Yes/No,24
+tmax_week2,Maximum temperature at week2,degC,1
+haemophagocytosis_week2,Haemophagocytosis at week2,Yes/No,24
+splenomegaly_week2,Splenomegaly at week2,Yes/No,24
+fever_week4,Fever at week4,Yes/No,8
+tmax_week4,Maximum temperature at week4,degC,0
+haemophagocytosis_week4,Haemophagocytosis at week4,Yes/No,8
+splenomegaly_week4,Splenomegaly at week4,Yes/No,8
+wbc_baseline,WBC at baseline,x10^9/L,24
+wbc_week2,WBC at week2,x10^9/L,24
+wbc_week4,WBC at week4,x10^9/L,8
+gr_baseline,GR at baseline,x10^9/L,24
+gr_week2,GR at week2,x10^9/L,24
+gr_week4,GR at week4,x10^9/L,8
+haemoglobin_baseline,HAEMOGLOBIN at baseline,g/L,24
+haemoglobin_week2,HAEMOGLOBIN at week2,g/L,24
+haemoglobin_week4,HAEMOGLOBIN at week4,g/L,8
+platelet_baseline,PLATELET at baseline,x10^9/L,24
+platelet_week2,PLATELET at week2,x10^9/L,24
+platelet_week4,PLATELET at week4,x10^9/L,8
+alt_baseline,ALT at baseline,U/L,24
+alt_week2,ALT at week2,U/L,23
+alt_week4,ALT at week4,U/L,8
+ast_baseline,AST at baseline,U/L,24
+ast_week2,AST at week2,U/L,23
+ast_week4,AST at week4,U/L,8
+ldh_baseline,LDH at baseline,U/L,24
+ldh_week2,LDH at week2,U/L,21
+ldh_week4,LDH at week4,U/L,7
+total_bilirubin_baseline,TOTAL_BILIRUBIN at baseline,umol/L,24
+total_bilirubin_week2,TOTAL_BILIRUBIN at week2,umol/L,24
+total_bilirubin_week4,TOTAL_BILIRUBIN at week4,umol/L,8
+creatinine_baseline,CREATININE at baseline,umol/L,24
+creatinine_week2,CREATININE at week2,umol/L,24
+creatinine_week4,CREATININE at week4,umol/L,8
+triglyceride_baseline,TRIGLYCERIDE at baseline,mmol/L,24
+triglyceride_week2,TRIGLYCERIDE at week2,mmol/L,15
+triglyceride_week4,TRIGLYCERIDE at week4,mmol/L,5
+ferritin_baseline,FERRITIN at baseline,ug/L,24
+ferritin_week2,FERRITIN at week2,ug/L,24
+ferritin_week4,FERRITIN at week4,ug/L,7
+fibrinogen_baseline,FIBRINOGEN at baseline,g/L,24
+fibrinogen_week2,FIBRINOGEN at week2,g/L,24
+fibrinogen_week4,FIBRINOGEN at week4,g/L,7
+nk_activity_baseline,NK_ACTIVITY at baseline,percent,21
+nk_activity_week2,NK_ACTIVITY at week2,percent,3
+nk_activity_week4,NK_ACTIVITY at week4,percent,0
+scd25_baseline,SCD25 at baseline,pg/mL,22
+scd25_week2,SCD25 at week2,pg/mL,15
+scd25_week4,SCD25 at week4,pg/mL,4
+mip1a_baseline,"MIP-1a at baseline (multiplex panel, not used in the manuscript)",pg/mL,2
+sdf1a_baseline,"SDF-1a at baseline (multiplex panel, not used in the manuscript)",pg/mL,2
+il27_baseline,"IL-27 at baseline (multiplex panel, not used in the manuscript)",pg/mL,0
+il1b_baseline,"IL-1b at baseline (multiplex panel, not used in the manuscript)",pg/mL,2
+il2_baseline,"IL-2 at baseline (multiplex panel, not used in the manuscript)",pg/mL,0
+il4_baseline,"IL-4 at baseline (multiplex panel, not used in the manuscript)",pg/mL,0
+il5_baseline,"IL-5 at baseline (multiplex panel, not used in the manuscript)",pg/mL,0
+ip10_baseline,"IP-10 at baseline (multiplex panel, not used in the manuscript)",pg/mL,2
+il6_baseline,"IL-6 at baseline (multiplex panel, not used in the manuscript)",pg/mL,12
+il7_baseline,"IL-7 at baseline (multiplex panel, not used in the manuscript)",pg/mL,2
+il8_baseline,"IL-8 at baseline (multiplex panel, not used in the manuscript)",pg/mL,14
+il10_baseline,"IL-10 at baseline (multiplex panel, not used in the manuscript)",pg/mL,13
+eotaxin_baseline,"Eotaxin at baseline (multiplex panel, not used in the manuscript)",pg/mL,2
+il12p70_baseline,"IL-12p70 at baseline (multiplex panel, not used in the manuscript)",pg/mL,1
+il13_baseline,"IL-13 at baseline (multiplex panel, not used in the manuscript)",pg/mL,0
+il17a_baseline,"IL-17A at baseline (multiplex panel, not used in the manuscript)",pg/mL,4
+il31_baseline,"IL-31 at baseline (multiplex panel, not used in the manuscript)",pg/mL,0
+il1ra_baseline,"IL-1RA at baseline (multiplex panel, not used in the manuscript)",pg/mL,14
+rantes_baseline,"RANTES at baseline (multiplex panel, not used in the manuscript)",pg/mL,2
+gmcsf_baseline,"GM-CSF at baseline (multiplex panel, not used in the manuscript)",pg/mL,1
+tnfa_baseline,"TNF-a at baseline (multiplex panel, not used in the manuscript)",pg/mL,15
+mip1b_baseline,"MIP-1b at baseline (multiplex panel, not used in the manuscript)",pg/mL,2
+ifna_baseline,"IFN-a at baseline (multiplex panel, not used in the manuscript)",pg/mL,2
+mcp1_baseline,"MCP-1 at baseline (multiplex panel, not used in the manuscript)",pg/mL,2
+il9_baseline,"IL-9 at baseline (multiplex panel, not used in the manuscript)",pg/mL,0
+tnfb_baseline,"TNF-b at baseline (multiplex panel, not used in the manuscript)",pg/mL,0
+groa_baseline,"GRO-a at baseline (multiplex panel, not used in the manuscript)",pg/mL,2
+il1a_baseline,"IL-1a at baseline (multiplex panel, not used in the manuscript)",pg/mL,1
+il23_baseline,"IL-23 at baseline (multiplex panel, not used in the manuscript)",pg/mL,0
+il15_baseline,"IL-15 at baseline (multiplex panel, not used in the manuscript)",pg/mL,1
+il21_baseline,"IL-21 at baseline (multiplex panel, not used in the manuscript)",pg/mL,0
+il22_baseline,"IL-22 at baseline (multiplex panel, not used in the manuscript)",pg/mL,0
+ifng_baseline,"IFN-g at baseline (multiplex panel, not used in the manuscript)",pg/mL,15
+st2_baseline,"ST2 at baseline (multiplex panel, not used in the manuscript)",pg/mL,13
+cd163_baseline,"CD163 at baseline (multiplex panel, not used in the manuscript)",pg/mL,5
+cxcl9_baseline,"CXCL9 at baseline (multiplex panel, not used in the manuscript)",pg/mL,13
+il18_baseline,"IL-18 at baseline (multiplex panel, not used in the manuscript)",pg/mL,14
+ebv_dna_baseline,Plasma EBV-DNA at baseline,copies/mL,23
+ebv_dna_baseline_status,Plasma EBV-DNA status at baseline,detectable / undetectable / not_tested / missing,24
+ebv_dna_pbmc_baseline,PBMC EBV-DNA at baseline,copies/mL,24
+ebv_dna_week2,Plasma EBV-DNA at week2,copies/mL,18
+ebv_dna_week2_status,Plasma EBV-DNA status at week2,detectable / undetectable / not_tested / missing,24
+ebv_dna_pbmc_week2,PBMC EBV-DNA at week2,copies/mL,19
+ebv_dna_week4,Plasma EBV-DNA at week4,copies/mL,6
+ebv_dna_week4_status,Plasma EBV-DNA status at week4,detectable / undetectable / not_tested / missing,24
+ebv_dna_pbmc_week4,PBMC EBV-DNA at week4,copies/mL,6
+ebv_plasma_2w_category,Category used for the waterfall plot (Figure 3),category,24
