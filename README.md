@@ -1,98 +1,152 @@
 # L-DEP-PD-1 LA-HLH analysis code
 
-Analysis code for the EBV-positive LA-HLH study NCT05775705. Patient-level
-data and reference outputs are distributed separately in the companion
-Zenodo data package (24 subjects, 118 variables).
+**Release v1.1** · 13 November 2026
 
-## Contents
+Analysis code and companion data for the prospective, multicentre, single-arm
+phase 2 study of L-DEP-PD-1 induction therapy in adults with EBV-positive
+lymphoma-associated haemophagocytic lymphohistiocytosis (LA-HLH), registered
+as **NCT05775705**. The dataset contains **24 patients and 126 variables**.
 
-- `code/02_analysis.py`: statistical analysis.
-- `code/run_all.py`: analysis runner; optional private workbook preparation.
-- `code/01_data_preparation.py`: source column mapping and preparation.
-- `requirements.txt`: Python dependencies with fixed versions.
-- `requirements-preparation.txt`: optional workbook-reading dependency.
-- `data/README.md`: dataset placement instructions.
-- `LICENSE`: CC BY 4.0 license terms.
-- `SHA256SUMS.txt`: checksums of release files.
+## Quick start
 
-## Reproduce the results
-
-1. Use Python 3.12. Create and activate a virtual environment.
-2. Download the companion Zenodo data package and copy its `data/` folder
-   into this repository. The required path is
-   `data/LDEP_PD1_LA-HLH_deidentified.csv`.
-3. From the repository root, run:
+Use Python 3.11 or later. Run the following commands from the repository root:
 
 ```bash
+python -m venv .venv
+source .venv/bin/activate
 python -m pip install -r requirements.txt
 python code/run_all.py
 ```
 
-`python code/02_analysis.py` is an equivalent analysis entry point once the
-CSV has been placed correctly. The analysis creates six result CSVs and
-`outputs/reproducibility_check.txt`. It does not regenerate the preparation
-log or the data dictionary. Compare results with the Zenodo `outputs/` folder.
-The full console log and `table3_patient_level.csv` include subject-level
-information; generated data and outputs are excluded by `.gitignore`.
+On Windows, activate the environment with `.venv\Scripts\activate` instead.
+The required CSV is included at `data/ldep_pd1_lahlh_patient_level.csv`.
+Each script locates its input relative to the code directory. Results are
+written to `output/`; running the analysis replaces generated output files.
 
-## Optional: prepare from the private workbook
+## Repository structure
 
-```bash
-python -m pip install -r requirements-preparation.txt
-python code/run_all.py /path/to/source.xls
+```text
+LDEP-PD-1_LA-HLH/
+├── README.md
+├── CITATION.cff
+├── LICENSE                     MIT: code
+├── LICENSE-data.txt            CC BY 4.0: data and reference outputs
+├── requirements.txt           installs code/requirements.txt
+├── SHA256SUMS.txt
+├── zenodo.json                software archive metadata
+├── code/
+│   ├── common.py
+│   ├── 01_baseline_and_response.py
+│   ├── 02_ebv.py
+│   ├── 03_laboratory_changes.py
+│   ├── 04_survival.py
+│   ├── 05_tables_3_4.py
+│   ├── 06_table2_toxicity.py
+│   ├── run_all.py
+│   └── requirements.txt
+├── data/
+│   ├── README.md
+│   ├── ldep_pd1_lahlh_patient_level.csv
+│   └── data_dictionary.csv
+└── output/                     eight supplied reference-result files
 ```
 
-This requires the authors' private workbook, first sheet, **116 columns**,
-two header rows, with the subsequent-therapy free-text column already removed.
-The script rejects other column counts and checks selected header anchors.
-The source workbook is not included in the public release.
+The source scripts, two input CSVs and eight selected reference outputs are
+copied unchanged from the supplied v1.1 package. The Chinese source workbook
+and its English translation are archived with the Zenodo dataset.
 
-## Companion data and citation
+## Analyses and output files
 
-The Zenodo DOI/URL and GitHub repository URL have not yet been assigned.
-Add the actual record links to both READMEs after creating the records.
-Please cite the associated manuscript and the companion dataset record.
+| Script | Analysis | Files written to `output/` |
+|---|---|---|
+| `01_baseline_and_response.py` | Baseline characteristics and HLH response at weeks 2 and 4 | `01_baseline.txt` |
+| `02_ebv.py` | Plasma/PBMC EBV-DNA, clearance denominators and paired change | `02_ebv.txt` |
+| `03_laboratory_changes.py` | Paired laboratory comparisons and percentage-change definitions | `03_table1.csv`, `03_laboratory.txt` |
+| `04_survival.py` | Overall survival, response groups and 4-month landmark analyses | `04_survival.txt` |
+| `05_tables_3_4.py` | Histological subgroups and patient-level summary | `05_table3.csv`, `05_table4.csv`, `05_tables_3_4.txt` |
+| `06_table2_toxicity.py` | Adverse events and documented adjudication rules | `06_table2.csv`, `06_table2.txt` |
 
-## Associated manuscript
+The repository tracks eight supplied reference files. The two additional text
+copies generated by scripts 05 and 06 are omitted from the release and ignored
+by Git because their table content is covered by the CSVs. All six scripts run
+through `code/run_all.py`; each can also be run separately.
 
-Pi Y, Wang J, Zhou H, Pan X, Wang Z. *Adding asparaginase and PD-1 blockade to the
-DEP regimen achieves rapid disease control and Epstein–Barr virus clearance in
-EBV-positive lymphoma-associated hemophagocytic lymphohistiocytosis.*
-ClinicalTrials.gov identifier: NCT05775705.
+## Data conventions
 
-## Study design
+- `pid` is the study-specific patient number, 1–24. See the data dictionary for
+  all 126 variable definitions, units and non-missing counts.
+- Missing cells are not assumed to be zero. EBV status columns distinguish
+  detectable, undetectable, not tested and unavailable results.
+- Plasma EBV-DNA recorded as zero means below the source assay's reported
+  quantification threshold of 500 copies/mL, not confirmed absence of virus.
+- The curated CSV records 10 alive, 5 lost to follow-up and 9 dead. Patients
+  lost to follow-up are censored at last contact in the survival analysis.
+  The source spreadsheets retain their original numeric codes; the Zenodo
+  README explains the difference between those codes and the curated CSV.
+- Reviewed WHO-HAEM5 histological classifications are included in
+  `subtype_WHO_HAEM5`; original clinical text is retained where applicable.
+- Some clinical fields are in Chinese. Do not substitute translated text in
+  the analysis CSV: the toxicity script parses the original Chinese wording.
 
-Prospective, multicentre, single-arm Phase 2 study conducted at three centres in
-China. Twenty-four adults with EBV-positive LA-HLH (EBV-positive lymphoma or grade
-2–3 EBV-positive T/NK-cell lymphoproliferative disease, meeting HLH-2004 criteria)
-received the L-DEP-PD-1 regimen as induction therapy. Patients were enrolled
-between August 2023 and July 2026.
+## Statistical methods
 
-Treatment (one cycle, repeated every 2 weeks for up to two cycles):
-liposomal doxorubicin 35 mg/m² and etoposide 75 mg/m² on day 1; methylprednisolone
-1.5 mg/kg days 1–3 tapered to 0.25 mg/kg by day 14; asparaginase 6,000 IU/m² on
-days 2 and 4; camrelizumab 200 mg on day 5. Four patients had asparaginase omitted
-because of organ intolerance and are recorded as `regimen = DEP+PD-1`.
+The scripts implement Wilson score confidence intervals for proportions,
+paired Wilcoxon signed-rank comparisons, Kaplan–Meier survival estimates with
+Greenwood/log-log intervals, and exploratory log-rank and landmark analyses.
+Laboratory comparisons use the asymptotic Wilcoxon method; the plasma EBV-DNA
+comparison requests the exact method. The code contains the detailed handling
+of missing pairs, rounding and adverse-event adjudication.
 
-The primary endpoint was the overall response rate (ORR: complete or partial
-response) two weeks after treatment, graded using the quantifiable HLH markers
-proposed by Marsh et al.
+Dependencies are declared in `code/requirements.txt`: pandas >=2.0,
+numpy >=1.24, scipy >=1.11 and lifelines >=0.27. Library versions can affect
+statistical implementations and output formatting; record the environment
+used for any independent reproduction.
 
-## Statistical conventions
+## Changes from v1.0.1
 
-The analysis implements the following conventions:
+- Replaces the former monolithic analysis and private-workbook preparation
+  workflow with six analysis scripts and shared helpers.
+- Uses the supplied 126-variable v1.1 CSV and its dictionary. The earlier
+  118-variable dataset and old preparation script are not interchangeable
+  with this release.
+- Includes reviewed histological classification, explicit EBV status fields,
+  expanded adverse-event results and labelled landmark analyses.
+- Uses Wilson proportion intervals; the previous release documented
+  Clopper–Pearson intervals.
+- Rewrites this README, updates citations and archive metadata, and retains
+  eight selected reference outputs. Previous releases remain available in
+  the repository's release history.
 
-* continuous variables — medians with ranges;
-* paired baseline-to-week-2 comparisons — two-sided **asymptotic** Wilcoxon
-  signed-rank test;
-* paired plasma EBV-DNA — zero-difference pairs excluded, **exact** Wilcoxon
-  signed-rank test (n = 16);
-* proportions — **Clopper-Pearson exact** 95% confidence intervals;
-* overall survival — Kaplan-Meier; median follow-up as the median of individual
-  follow-up times;
-* two-sided P < 0.05 considered significant.
+## Dataset and citation
 
-## Contact
+- Matching dataset **v1.1**: https://doi.org/10.5281/zenodo.24200366
+- Original dataset **v1**: https://doi.org/10.5281/zenodo.22833596
+- All dataset versions: https://doi.org/10.5281/zenodo.22833595
+- This software release: https://github.com/Yubo-Pi/LDEP-PD-1_LA-HLH/releases/tag/v1.1
 
-Zhao Wang — Department of Hematology, Beijing Friendship Hospital, Capital
-Medical University — wangzhao@ccmu.edu.cn
+The original v1 DOI remains valid for the original dataset. For reproducibility,
+identify the software release and dataset version actually used. See
+`CITATION.cff` for the software citation. The earlier code archive is available
+at https://doi.org/10.5281/zenodo.22833311; that identifier is not presented here
+as a newly assigned DOI for this GitHub release.
+
+Associated manuscript: Pi Y, Wang J, Zhou H, Pan X, Wang Z. *Addition of
+asparaginase and PD-1 blockade to the DEP regimen was associated with rapid
+disease control and undetectable plasma EBV-DNA in EBV-positive
+lymphoma-associated hemophagocytic lymphohistiocytosis: a prospective,
+multicenter, single-arm phase 2 study.*
+
+## Ethics, interpretation and licensing
+
+The supplied study documentation states approval by the Beijing Friendship
+Hospital Ethics Committee (No. 2023-P2-040-01) and written informed consent
+including research sharing of de-identified data. Users must not attempt
+re-identification. This is a 24-patient single-arm study: estimates and small
+histological subgroups require cautious interpretation, and the data cannot
+establish superiority over DEP or isolate the effect of any component.
+
+Code is licensed under MIT (`LICENSE`). The data and reference outputs are
+licensed under CC BY 4.0 (`LICENSE-data.txt`).
+
+Contact: Zhao Wang, Department of Hematology, Beijing Friendship Hospital,
+Capital Medical University — wangzhao@ccmu.edu.cn.
