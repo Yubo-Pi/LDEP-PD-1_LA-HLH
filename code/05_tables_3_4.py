@@ -1,8 +1,15 @@
 """
 05_tables_3_4.py
 
-Reproduces Table 3 (outcomes by histological subgroup) and Table 4
-(patient-level table) from the shared dataset.
+Reproduces the legacy subtype-level outcome table (manuscript Table 3 in
+dataset v1.1, dropped from the v1.2 manuscript) and the revised patient-level
+Table 3 from the shared dataset.
+
+Note (v1.2): three patients previously coded as 'EBV-positive T/NK-cell LPD,
+grade 2-3' are now 'systemic CAEBVD, T/NK-cell type (category A2-A3)', and
+three patients previously coded as 'T-cell lymphoma, NOS' / 'EBV-positive
+T-cell lymphoma, NOS' are now 'PTCL, NOS', per WHO-HAEM5 entities used in the
+revised manuscript.
 
 Writes output/05_table3.csv and output/05_table4.csv
 """
@@ -22,20 +29,16 @@ def out(s=''):
 
 ORDER = [
     'ENKTL',
-    'EBV-positive T/NK-cell LPD, grade 2-3',
-    'T-cell lymphoma, NOS',
-    'EBV-positive T-cell lymphoma, NOS',
     'PTCL, NOS',
+    'systemic CAEBVD, T/NK-cell type (category A2-A3)',
     'EBV-positive diffuse large B-cell lymphoma, NOS',
     'ALCL, ALK-negative',
     'Classical Hodgkin lymphoma',
 ]
 SHORT = {
     'ENKTL': 'ENKTL',
-    'EBV-positive T/NK-cell LPD, grade 2-3': 'EBV+ T/NK-LPD, grade 2-3',
-    'T-cell lymphoma, NOS': 'T-cell lymphoma, NOS',
-    'EBV-positive T-cell lymphoma, NOS': 'EBV+ T-cell lymphoma, NOS',
     'PTCL, NOS': 'PTCL, NOS',
+    'systemic CAEBVD, T/NK-cell type (category A2-A3)': 'systemic CAEBVD, T/NK-cell type (A2-A3)',
     'EBV-positive diffuse large B-cell lymphoma, NOS': 'EBV+ DLBCL, NOS',
     'ALCL, ALK-negative': 'ALCL, ALK-negative',
     'Classical Hodgkin lymphoma': 'Classical Hodgkin lymphoma',

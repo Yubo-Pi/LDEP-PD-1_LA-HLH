@@ -30,13 +30,33 @@ Derivation of each row:
   hyperbilirubinaemia row is 0.
 
   Hypofibrinogenaemia at 2 weeks is fibrinogen < 2.0 g/L (any grade)
-  and < 1.0 g/L (grade 3-4) at week 2.
+  at week 2. It carries no grade 3-4 entry, although one patient (pid
+  14, 0.99 g/L) sits just below the 1.0 g/L CTCAE grade 3 threshold; the
+  investigator did not grade the fall as an adverse event, so the row is
+  reported as not reaching grade 3-4 rather than counted from the value.
 
-  The grade 3-4 column of the other non-haematological rows
-  (pneumonia, CMV viremia, atrial fibrillation) reflects investigator
-  grading recorded on the case report forms; the free-text
-  `adverse_event_detail` field does not carry those grades, so these
-  three cells are adjudicated constants.
+  The grade 3-4 column of the non-haematological rows
+  (pneumonia, CMV viraemia, atrial fibrillation) is likewise adjudicated
+  by the investigator, not derived from `adverse_event_detail`. That field
+  records that the event occurred but carries no CTCAE grade for it, so
+  the number of patients with the event and the number graded 3-4 are
+  separate quantities:
+
+    - pneumonia: event counted, no grade assigned -> grade 3-4 = 0;
+    - CMV viraemia or infection: event counted, no grade assigned
+      -> grade 3-4 = 0;
+    - paroxysmal atrial fibrillation (pid 11): event counted, no grade
+      assigned -> grade 3-4 = 0.
+
+  Every non-haematological row therefore has a grade 3-4 count of 0. The
+  "Any grade 3-4 adverse event" total is nevertheless 17, because that
+  total is counted from haematological grades alone (12 grade 4 + 5
+  grade 3), including pid 24's unspecified grade-4 myelosuppression.
+
+  Filling the event count into the grade 3-4 column would assert that
+  every patient with the event had a grade 3-4 event, which the source
+  does not support. The adjudicated values are held in
+  ADJUDICATED_GRADE_3_4 below so that the choice is visible.
 
 Writes output/06_table2.csv and output/06_table2.txt
 """
@@ -60,6 +80,20 @@ def out(s=''):
 # ---------------------------------------------------------------- parsing
 GRADES = {'I': 1, 'II': 2, 'III': 3, 'IV': 4}
 LINEAGE_KEYS = {'白细胞': 'leukopenia', '血小板': 'thrombocytopenia', '贫血': 'anaemia'}
+
+# Grade 3-4 counts for the non-haematological events. Every one of these
+# events was recorded as having occurred, but the source database carries
+# no CTCAE grade for any of them, so no patient appears in the grade 3-4
+# column for these rows. These are investigator-adjudicated constants, as
+# stated in the module docstring, and they match Table 2 of the
+# manuscript. They are deliberately not derived from the event counts:
+# the free-text record says the event happened, not how severe it was.
+ADJUDICATED_GRADE_3_4 = {
+    'pneumonia': 0,
+    'cmv': 0,
+    'atrial_fibrillation': 0,
+    'hypofibrinogenemia': 0,
+}
 
 
 def parse_events(text):
@@ -116,6 +150,10 @@ def cnt(d, lo=1):
 
 
 def f(k, total=n):
+    """Percentage cell. A count of zero is written as a bare '0' to match
+    Table 2 of the manuscript, where empty categories carry no percentage."""
+    if k == 0:
+        return '0'
     return '%d (%.1f)' % (k, k / total * 100)
 
 
@@ -136,6 +174,9 @@ tb_final = [p for p in tb_rule if p not in ADJ_TB_EXCLUDE]
 
 fib = df['fibrinogen_week2']
 fib_any = int((fib < 2.0).sum())
+# Patients below the 1.0 g/L CTCAE grade-3 threshold. Reported as a
+# cross-check only; the Table 2 cell for this row is adjudicated (0), see
+# ADJUDICATED_GRADE_3_4 and the module docstring.
 fib_g34 = int((fib < 1.0).sum())
 
 # ---------------------------------------------------------------- summary
@@ -161,20 +202,29 @@ TABLE = [
                        sum(1 for g in highest.values() if g == 3),
                        sum(1 for g in highest.values() if g == 2)),
      'adverse_event_detail; pid 24 recorded as unspecified grade-4 myelosuppression'),
-    ('Non-hematologic', 'Pneumonia', f(len(nonheme_from_text['pneumonia'])), f(len(nonheme_from_text['pneumonia'])),
-     'adverse_event_detail; G3-4 grade per investigator'),
-    ('Non-hematologic', 'CMV viremia or infection', f(len(nonheme_from_text['cmv'])), f(len(nonheme_from_text['cmv'])),
-     'adverse_event_detail; G3-4 grade per investigator'),
+    ('Non-hematologic', 'Pneumonia', f(len(nonheme_from_text['pneumonia'])),
+     f(ADJUDICATED_GRADE_3_4['pneumonia']),
+     'adverse_event_detail; pneumonia counted 2 per investigator adjudication; '
+     'no grade assigned to this event, so the grade 3-4 cell is 0'),
+    ('Non-hematologic', 'CMV viremia or infection', f(len(nonheme_from_text['cmv'])),
+     f(ADJUDICATED_GRADE_3_4['cmv']),
+     'adverse_event_detail; CMV counted 2 per investigator adjudication; '
+     'no grade assigned to this event, so the grade 3-4 cell is 0'),
     ('Non-hematologic', 'ALT elevation, new or worsened', f(len(alt_final)), '0',
      'week-2 > baseline and > 40 U/L; pid 22 excluded (assay variability, no AE recorded)'),
     ('Non-hematologic', 'AST elevation, new or worsened', f(len(ast_rule)), '0',
      'week-2 > baseline and > 40 U/L'),
     ('Non-hematologic', 'Hyperbilirubinemia, new or worsened', f(len(tb_final)), '0',
      'week-2 > baseline and > 21 umol/L; pid 15 (HLH progression), pid 19/23 (assay variability) excluded'),
-    ('Non-hematologic', 'Hypofibrinogenemia at 2 weeks', f(fib_any), f(fib_g34),
-     'fibrinogen_week2 < 2.0 g/L (any), < 1.0 g/L (grade 3-4)'),
+    ('Non-hematologic', 'Hypofibrinogenemia at 2 weeks', f(fib_any),
+     f(ADJUDICATED_GRADE_3_4['hypofibrinogenemia']),
+     'fibrinogen_week2 < 2.0 g/L (any); investigator adjudication assigns no grade 3-4: '
+     'the single value below 1.0 g/L (pid 14, 0.99 g/L) was adjudicated below the CTCAE grade 3 '
+     'threshold and is reported as not reached'),
     ('Non-hematologic', 'Paroxysmal atrial fibrillation', f(len(nonheme_from_text['atrial_fibrillation'])),
-     f(len(nonheme_from_text['atrial_fibrillation'])), 'adverse_event_detail; G3-4 grade per investigator'),
+     f(ADJUDICATED_GRADE_3_4['atrial_fibrillation']),
+     'adverse_event_detail; event counted per investigator adjudication; '
+     'no grade 3-4 assigned to this event'),
     ('Non-hematologic', 'Premature ventricular contractions', f(len(set(nonheme_from_text['pvc']))), '0',
      'adverse_event_detail'),
     ('Non-hematologic', 'Pancreatitis or grade 3-4 hyperamylasemia', '0', '0', 'none recorded'),
@@ -184,7 +234,7 @@ TABLE = [
      'patients with highest CTCAE grade >= 3 (12 grade 4 + 5 grade 3)'),
     ('Summary', 'Asparaginase omitted (protocol-permitted)', f(asparaginase_omitted), '',
      'regimen != L-DEP+PD-1 (pid %s)' % ', '.join(map(str, df.loc[df['regimen'] != 'L-DEP+PD-1', 'pid'].astype(int)))),
-    ('Summary', 'Liposomal doxorubicin reduced to 25 mg/m2 (age > 60 years)', f(doxo_reduced), '',
+    ('Summary', 'Liposomal doxorubicin reduced to 25 mg/m\u00b2 (age>60 years)', f(doxo_reduced), '',
      'age_years > 60 (pid %s)' % ', '.join(map(str, df.loc[df['age_years'] > 60, 'pid'].astype(int)))),
     ('Summary', 'Permanent discontinuation of all study drugs', '0', '', 'none recorded'),
     ('Summary', 'Treatment-related death', '0', '', 'none recorded (all deaths attributed to progression, infection, or transplant complications)'),
